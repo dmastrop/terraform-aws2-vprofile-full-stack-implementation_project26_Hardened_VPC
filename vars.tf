@@ -3,6 +3,7 @@ variable "AWS_REGION" {
 }
 
 # AMI will be for the bastion host in the public subnet of the VPC
+# for project26 convert the bastion host ubuntu to CIS hardened ubuntu
 variable "AMIS" {
   type = map(any)
   default = {
@@ -10,11 +11,23 @@ variable "AMIS" {
     # this is from the first_instance.tf file. This is amazon linux
 
     #update us-east-1 with ubuntu 20 image for project16 bastion host
-    us-east-1 = "ami-0cd59ecaf368e5ccf"
+    #us-east-1 = "ami-0cd59ecaf368e5ccf"
+
+    #update us-east-1 with CIS ubuntu 20 for project26 bastion host
+    us-east-1 = "ami-0ea252761070f6801"
 
 
-    us-east-2 = "ami-0900fe555666598a2"
+    #us-east-2 = "ami-0900fe555666598a2"
     # get this sample ami from us-east-2; same operating system and version. This is amazon linux in region us-east-2
+
+    #us-east-2 CIS ubuntu 20 for project 26 bastion host
+    us-east-2 = "ami-00b75dccbcff4b908"
+
+    #us-west-1 CIS ubuntu 20
+    us-west-1 = "ami-0261a92acdb3905d9"
+
+    #us-west-2 CIS ubuntu 20
+    us-west-2 = "ami-0438cdcd81cd319be"
   }
 }
 
