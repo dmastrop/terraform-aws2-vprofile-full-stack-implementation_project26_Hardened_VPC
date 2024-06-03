@@ -37,13 +37,13 @@ resource "aws_instance" "vprofile-project16-bastion-host" {
     # this places the shell script into the /tmp directory on this bastion host with name vprofile-dbdeploy.tmpl
   }
 
-  provisioner "remote-exec" {
-    #execute the shell script on this bastion host
-    inline = [
-      "chmod +x /tmp/vprofile-dbdeploy.sh",
-      "sudo /tmp/vprofile-dbdeploy.sh"
-    ]
-  }
+  # provisioner "remote-exec" {
+  #   #execute the shell script on this bastion host
+  #   inline = [
+  #     "chmod +x /tmp/vprofile-dbdeploy.sh",
+  #     "sudo /tmp/vprofile-dbdeploy.sh"
+  #   ]
+  # }
 
   connection {
     # this will instruct terraform/my pc on how to open the connection to this bastion host so that the above provisioners can be run
