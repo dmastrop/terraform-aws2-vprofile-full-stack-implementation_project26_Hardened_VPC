@@ -37,6 +37,11 @@ resource "aws_instance" "vprofile-project16-bastion-host" {
     # this places the shell script into the /tmp directory on this bastion host with name vprofile-dbdeploy.tmpl
   }
 
+
+
+# commentout the remote-exec provisioner for project26 securitized. We will not be able to run this on the CIS ubuntu instance
+# Instead copy the vprofile-dbdeploy.sh from /tmp to /home/ubuntu and chmod +x the file and run it from there to configure the 
+# RDS mysql database.  This will config the schemo for the accounts account on the RDS instance along with all the users and credentials.
   # provisioner "remote-exec" {
   #   #execute the shell script on this bastion host
   #   inline = [
