@@ -38,6 +38,20 @@ The NACLs have to allow SSH, 443, (80), and traffic from the VPC CIDR block to a
 For the private subnet (servers) the inbound rules have to allow traffic from anywhere to all allow (port 80 and/or 8080 is used on the backend).  The outbound NACL for private subnet must allow all to anywhere. The healtcheck returns outbound on the private subnet to inbound on the public subnet (loadbalancer) (see inbound NACL rules abouve for public subnet)
 
 
+## Addtional layers of security
+
+Can add additonal layers of security on the VPC perimeter and the loadbalancer in the Beanstalk environment with AWS WAF (mitigate SQL injection and also with AWS Shield for DDos protection of the website application.
+
+The WAF can mitigate the following types of vulnerabilities from infiltrating the backend server infrastructure
+
+    SQL Injection
+    Broken injection
+    Sensitive Data exposure
+    XML External Entities
+    Broken Access control
+    Security misconfigurations
+    Cross Site scripting XSS
+    Insecure Deserialization
 
 
 
@@ -45,7 +59,7 @@ For the private subnet (servers) the inbound rules have to allow traffic from an
 
 
 
-# terraform-aws2-vprofile-full-stack-implementation
+# terraform-aws2-vprofile-full-stack-implementation (project 16 infrastructure and full stack backend infra)
 Project16: Full stack implementation of vprofile app using terraform IaaC for network infra automation and some of the stack implementation on AWS2
 
 backend-services.tf
