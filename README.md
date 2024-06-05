@@ -7,7 +7,7 @@ The CIS ubuntu image will not allow a remote-exec terraform provisioner block to
 
 ## Security groups
 
-The security groups are much the same as the nonsecuritized setup.  Can allow SSH from MyIP only but other than that the security groups are the same.
+The security groups are much the same as the nonsecuritized setup.  Can allow SSH from MyIP only but other than that the security groups are the same.  Adding HTTPS to the loadbalancer in the Elasticbeanstalk environment will add the 443 to the indbound security group.
 
 ## Optionally encrypt the EBS volumes with the KMS key
 
