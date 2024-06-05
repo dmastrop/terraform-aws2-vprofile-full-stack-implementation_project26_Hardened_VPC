@@ -1,5 +1,48 @@
 # Project 26: Securitizing and hardening the terraform VPC and the full stack vprofile deployment
 
+## Bastion host
+
+Harden the bastion host with an CIS ubuntu image.  Modify the bastion host amis in the vars.tf accordingly
+The CIS ubuntu image will not allow a remote-exec terraform provisioner block to be executed on the bastion host to configure the RDS mysql database schema.  For now remove the block from bastion-host.tf and after the terraaform infra is up, SSH into the bastion host and copy the db-deploy.tmpl from /tmp to /home/ubuntu and chmod +x the file and then manually execute it on the bastion host. This will configure the schema on the RDS mysql server.
+
+## Security groups
+
+The security groups are much the same as the nonsecuritized setup.  Can allow SSH from MyIP only but other than that the security groups are the same.
+
+## Optionally encrypt the EBS volumes with the KMS key
+
+## Elastic Beanstalk loadbalancer: migrate from HTTP to HTTPS
+
+The certificate is created in ACM and can be applied to the loadbalancer listener.   Currently running on port 80 for HTTP and 443 for HTTTPs. This provides encryption for data in transit to the application website.  When creating the 443 listener, make sure instance port is 80 and HTTP.
+
+## Modify the application.properties in the vprofile application source code local repository and rebuild the source code artifact .war file
+
+Based upon the current terraform deployment get the endponts for the RDS, memcached and rabbitmq servers and update the application.properties file accordingly.
+
+In the local source git repository rebuild the source code artifact with mvn install.
+The target folder will have the updated artifact.
+
+
+## Deploy the new artifact to the running Elastic Beanstalk environment application
+
+Upload the new .war file to the running elastic beanstalk instance.  Once the deployment is complete, the healthchecks on the loadbalancer will fail. This is because the content is now running on HTTP port 8080 and 
+/login URL. Update the elastic beanstalk listener accordingly and also update the loadbalancer healthchecks accordingly.  The healthcheck of the loadbalancer should go to in-service and eventually the beanstalk environment will switch to healthy state.  At this point the full application stack on HTTPS should be working.
+
+## Deploying the NACLs
+
+The NACLs can be added after the upload. The current NACL rules are blocking the upload and need to figure out what addtional rules are required to allow the upload to beanstalk applcation server (tomcat) to occur. 
+
+
+The NACLs have to allow SSH, 443, (80), and traffic from the VPC CIDR block to all, on inbound public subnet.  The VPC to all is required for the healthchecks to remain up.   The outbound NACL should allow all to anywhere for the public subnet.
+
+For the private subnet (servers) the inbound rules have to allow traffic from anywhere to all allow (port 80 and/or 8080 is used on the backend).  The outbound NACL for private subnet must allow all to anywhere. The healtcheck returns outbound on the private subnet to inbound on the public subnet (loadbalancer) (see inbound NACL rules abouve for public subnet)
+
+
+
+
+
+
+
 
 
 # terraform-aws2-vprofile-full-stack-implementation
